@@ -1,6 +1,8 @@
-#  goit-react-hw-03-image-finder 
+# goit-react-hw-04-images
 
-This is homework for the React HTTP requests.
+This is refactored application [goit-react-hw-03-image-finder](https://github.com/oleksandr-romashko/goit-react-hw-03-image-finder) using React hooks instead of classes.
+
+This is homework for the React HTTP requests and React hooks topics.
 
 ## Live page
 
@@ -17,16 +19,13 @@ The live page for this repository can be viewed at [GitHub Pages](https://oleksa
 
 [React project template](https://github.com/goitacademy/react-homework-template/blob/main/README.en.md) is used as a starting point for the application (more information about how to start-up with such a project may be found at the template repo description or [here in a Readme file](./assets/README.project-template.en.md)).
 
-  * The `goit-react-hw-03-image-finder` repository is created.
-  * When submitting homework, there are two links: to the source files and the live pages of each assignment on `GitHub Pages'.
-  * The component state stores the minimum required set of data, the rest is calculated.
-  * There are no errors or warnings in the console when running application code.
-  * Each component has a separate folder with the React-component file and styles file.
+  * The `goit-react-hw-04-images` repository is created.
+  * Refactor the "[Image Search](https://github.com/oleksandr-romashko/goit-react-hw-03-image-finder)" task code from the second module using React-hooks.
+  * When submitting homework, there are two links: to the source files and the live page using `GitHub Pages'.
+  * When visiting the work page (GitHub pages) of the assignment, there are no errors or warnings in the console.
+  * For each component has a separate folder with a React-component file and styles.
   * The `propTypes` are described for all components.
-  * Everything that a component expects in the form of props is passed to it when it is called.
-  * Component names are clear and descriptive.
-  * The JS code is clean and clear, `Prettier` is used.
-  * Styling is done by `CSS modules` or `Styled Components`.
+  * Component names are clear, descriptive.
 
 ## Task - Image Search
 

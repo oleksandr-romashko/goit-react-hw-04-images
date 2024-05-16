@@ -1,0 +1,23 @@
+/*
+ * Styles for Loader component
+ */
+
+/* Loader parent element for loader positioningn */
+*:has(> .loader) {
+  position: relative;
+}
+
+.loader {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Loader for Image Gallety */
+ul ~ .loader {
+  position: fixed;
+  z-index: 1110;
+  top: 45vh;
+  left: 50%;
+  transform: translateX(-50%);
+}

@@ -1,0 +1,70 @@
+/*
+ * Styles for Modal component
+ */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+
+  &:hover {
+    cursor: zoom-out;
+  }
+}
+
+/* varian when image will filled in existing area 
+   and part of it will be cropped to maintain aspect ratio */
+.modal-cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100vw - 14vw);
+  height: calc(100vh - 12vh);
+
+  &:hover {
+    cursor: auto;
+  }
+}
+
+.modal-cover .image {
+  width: calc(100vw - 14vw);
+  height: calc(100vh - 12vh);
+  object-fit: cover;
+
+  background-repeat: no-repeat, repeat;
+  background-position: center center, center center;
+  background-size: calc(100vw - 14vw) calc(100vh - 12vh);
+  background-clip: padding-box;
+  background-size: cover, auto;
+}
+
+/* variant when image will maintain its original aspect ratio */
+.modal-contain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(100vw - 14vw);
+  max-height: calc(100vh - 12vh);
+
+  &:hover {
+    cursor: auto;
+  }
+}
+
+.modal-contain .image {
+  max-width: calc(100vw - 14vw);
+  max-height: calc(100vh - 12vh);
+  object-fit: contain;
+
+  background-repeat: no-repeat, repeat;
+  background-position: center center, center center;
+  background-clip: padding-box;
+  background-size: cover, auto;
+}

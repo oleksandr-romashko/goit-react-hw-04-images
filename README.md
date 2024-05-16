@@ -1,4 +1,6 @@
-# goit-react-hw-04-images
+# Image Search
+
+## goit-react-hw-04-images
 
 This is refactored application [goit-react-hw-03-image-finder](https://github.com/oleksandr-romashko/goit-react-hw-03-image-finder) using React hooks instead of classes.
 

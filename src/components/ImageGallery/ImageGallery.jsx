@@ -61,15 +61,14 @@ export class ImageGallery extends React.Component {
           }
         </ul>
         {page === 1 && isLoading && <Loader />}
-        {images && images.length === 0 && <Message>
-                                            <img src={errorImg} alt="error bg"></img>
-                                            <p>{MESSAGE_NOT_FOUND}</p>
-                                          </Message>}
-        {images && images.length > 0 && !hasLoadMore && <Message><p>{MESSAGE_END_OF_SEARCH_RESULTS}</p></Message>}
-        {images && hasLoadMore && <Button isLoading={isLoading && page !== 1} onClick={onLoadMore} />}
+        {images && !images.length && !isLoading && <Message>
+                                                     <img src={errorImg} alt="error bg"></img>
+                                                     <p>{MESSAGE_NOT_FOUND}</p>
+                                                   </Message>}
+        {!isLoading && images && images.length > 0 && !hasLoadMore && <Message><p>{MESSAGE_END_OF_SEARCH_RESULTS}</p></Message>}
+        {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={onLoadMore} />}
       </div>
     )
-
   }
 }
 

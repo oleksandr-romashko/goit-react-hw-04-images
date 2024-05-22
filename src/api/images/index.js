@@ -12,7 +12,7 @@ export const getImagesApi = async (searchQuery, page, perPage) => {
       per_page: perPage,
       image_type: 'photo',
     },
-    signal: AbortSignal.timeout(5000), //https://axios-http.com/docs/cancellation
+    signal: AbortSignal.timeout(9000), //https://axios-http.com/docs/cancellation
   }).catch(function (error) {
     if (error.code === 'ERR_CANCELED') {
       throw new Error(ERROR_MESSAGE_TIMEOUT);

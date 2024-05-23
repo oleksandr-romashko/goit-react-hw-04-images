@@ -37,17 +37,19 @@ export const App = () => {
     largeImageURL: null,
   });
   const [error, setError] = useState(null);
+
   const [scrollOffsetOnLoadMore, setScrollOffsetOnLoadMore] = useState(null);
+  const [lastImageElement, setLastImageElement] = useState(null);
 
   /**
-   * Loads critically necessary images.
+   * Loads critically necessary images to cache them.
    */
   useEffect(()=> {
     loadCriticalImages();
   }, []);
 
   /**
-   * Handles search query update.
+   * Handles search query or page update.
    */
   useEffect(() => {
     if (!searchQuery) {
@@ -81,6 +83,10 @@ export const App = () => {
     document.documentElement.style.overflowY = modal.isShowModal ? "hidden" : "";
   }, [modal.isShowModal]);
 
+  /**
+   * Handle on error occurance.
+   * If error is occured - reset elements.
+   */
   useEffect(() => {
     if (error) {
       setImages([]);
@@ -97,8 +103,10 @@ export const App = () => {
 
   /**
    * Unfocus from search input after seach executed.
-   * User - focuses on loaded search results.
-   * On mobile - hides keyboard after search or fully show error message prompt without keyboard overlapping.
+   * 
+   * Is useful in these cases:
+   * - For User - focuses on loaded search results and allows subsequent tab focus on results.
+   * - On mobile - hides keyboard after search or fully show error message prompt without keyboard overlapping.
    */
   const input = document.getElementById("query");
   if ((images && document.activeElement === input) || error) {
@@ -121,18 +129,33 @@ export const App = () => {
   /**
    * Handles load of more images.
    */
-  const handleLoadMore = () => {
+  const handleLoadMore = (lastImage) => {
     setIsLoading(true);
-    setScrollOffsetOnLoadMore(document.getElementById("image-gallery").offsetHeight);
     setPage(prev => prev + 1);
+    setScrollOffsetOnLoadMore(document.getElementById("image-gallery").offsetHeight);
+    if(lastImage) {
+      setLastImageElement(lastImage);
+    } else {
+      setLastImageElement(null);
+    }
   };
 
   /**
-   * Handles scroll Scrolls to the start of newly loaded images.
+   * Handles focus after loading new images.
+   * Scrolls to the start of newly loaded images.
+   * Focuses on the first image gallery element of loaded images, if such element profided.
    */
-  const handleScrollToNewImages = () => {
+  const handleLoadFocusOnNewImages = () => {
     if (scrollOffsetOnLoadMore) {
       smoothScroll(SMOOTH_SCROLL_DURATION, scrollOffsetOnLoadMore + 16);
+    }
+    if (lastImageElement) {
+      const nextImage = lastImageElement.nextElementSibling;
+      if (nextImage) {
+        nextImage.firstElementChild.focus();
+      }
+    } else {
+      document.activeElement.blur();
     }
     setScrollOffsetOnLoadMore(null);
   };
@@ -141,13 +164,23 @@ export const App = () => {
    * Handles modal widnow opening.
    * @param {string} imageId Id of the image.
    */
-  const handleOpenModal = (imageId) => {
+  const handleOpenModal = (imageId, tabFocusedElement) => {
     const { webformatURL: placeholderUrl = imgNoImage,
             largeImageURL,
             tags: altText }
       = images.find(({ id }) => id === Number(imageId));
 
-    setModal(prev => ({...prev, ...{isShowModal: true, placeholderUrl, largeImageURL, altText}}));
+    setModal(prev => (
+      {
+        ...prev, 
+        ...{
+            isShowModal: true, 
+            placeholderUrl, 
+            largeImageURL, 
+            altText
+           }
+      }
+    ));
   };
 
   /**
@@ -160,6 +193,9 @@ export const App = () => {
       placeholderUrl: null,
       largeImageURL: null,
     });
+    if (lastImageElement) {
+      setLastImageElement(null);
+    }
   };
 
   return (
@@ -177,7 +213,7 @@ export const App = () => {
                     isLoading={isLoading}
                     hasLoadMore={hasLoadMore}
                     onClickLoadMore={handleLoadMore}
-                    onDidLoadMore={handleScrollToNewImages}
+                    onDidLoadMore={handleLoadFocusOnNewImages}
                     onImageClick={handleOpenModal}
                   />
       }

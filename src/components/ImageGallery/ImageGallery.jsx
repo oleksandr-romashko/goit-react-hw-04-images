@@ -27,13 +27,31 @@ export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadM
    */
   useEffect(() => onDidLoadMore, [images, onDidLoadMore]);
 
+  /**
+   * Handles click on button for loading more images. 
+   * @param {SyntheticEvent} event.detail Event property showing number of clicks.
+   */
+  const handleLoadMoreClick = ({detail}) => {
+    // check whenever mouse click or tab focus click
+    if (detail !== 0) {
+      // mouse click on button
+      onClickLoadMore();
+    } else {
+      // tab focus click using space or enter
+      const lastImageElement = document.getElementById("image-gallery").lastElementChild;
+      onClickLoadMore(lastImageElement);
+    }
+  }
+
   const handleGalleryImageClick = ({target}) => {
+    // in case tab focus key press
     if (target.nodeName === "BUTTON") {
-      onImageClick(target.firstElementChild.dataset.id);
+      onImageClick(target.firstElementChild.dataset.id, target.closest("li"));
     }
 
+    // in case mouse click
     if (target.nodeName === "IMG") {
-      onImageClick(target.dataset.id);
+      onImageClick(target.dataset.id, target.closest("li"));
     }
   }
 
@@ -60,7 +78,7 @@ export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadM
                                                      <p>{MESSAGE_NOT_FOUND}</p>
                                                    </Message>}
         {!isLoading && images && images.length > 0 && !hasLoadMore && <Message><p>{MESSAGE_END_OF_SEARCH_RESULTS}</p></Message>}
-        {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={onClickLoadMore} />}
+        {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={handleLoadMoreClick} />}
       </div>
   )
 }

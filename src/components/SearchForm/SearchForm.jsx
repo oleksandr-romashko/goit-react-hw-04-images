@@ -1,26 +1,29 @@
-import React from "react";
+import { useEffect } from "react";
+import PropTypes from "prop-types";
 import css from "./SearchForm.module.css";
 
 /**
- * Form to submit search query.
+ * Form for search query.
+ * @param {callback} props.submit Callback for form submittal.
  * @returns {React.Component}
  */
-export class SearchForm extends React.Component {
-
-  componentDidMount() { 
+export const SearchForm = ({submit}) => {
+  /**
+   * At app load focus on imput element.
+   */
+  useEffect(() => {
     const input = document.getElementById("query");
     input.focus();
-   }
+  }, [])
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const searchQuery = event.target.query.value;
-    this.props.submit(searchQuery);
+    submit(searchQuery);
   }
-  
-  render() {
-    return (
-    <form className={css.form} onSubmit={this.handleSubmit}>
+
+  return (
+    <form className={css.form} onSubmit={handleSubmit}>
       <button type="submit" className={css.button}>
         <span className={css['button-label']}>Search</span>
       </button>
@@ -36,5 +39,9 @@ export class SearchForm extends React.Component {
         required
       />
     </form>
-  )}
+  )
 }
+
+SearchForm.propTypes = {
+  submit: PropTypes.func.isRequired,
+};

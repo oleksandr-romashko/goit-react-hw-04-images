@@ -58,29 +58,29 @@ export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadM
 
   return (
     <div>
-        <ul ref={galleryRef} id="image-gallery" className={css.gallery} onClick={handleGalleryImageClick}>
-          {images && images.length > 0 &&
-            <>
-              {images.map(({ id, previewURL, webformatURL, tags }, idx) => (
-                <ImageGalleryItem
-                  key={`id${id}idx${idx}`}
-                  id={id}
-                  previewURL={previewURL}
-                  webformatURL={webformatURL}
-                  tags={tags}
-                />
-              ))}
-            </>
-          }
-        </ul>
-        {page === 1 && isLoading && <Loader />}
-        {images && !images.length && !isLoading && <Message>
-                                                     <img src={errorImg} alt="error bg"></img>
-                                                     <p>{MESSAGE_NOT_FOUND}</p>
-                                                   </Message>}
-        {!isLoading && images && images.length > 0 && !hasLoadMore && <Message><p>{MESSAGE_END_OF_SEARCH_RESULTS}</p></Message>}
-        {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={handleLoadMoreClick} />}
-      </div>
+      <ul ref={galleryRef} id="image-gallery" className={css.gallery} onClick={handleGalleryImageClick}>
+        {images && images.length > 0 &&
+          <>
+            {images.map(({ id, previewURL, webformatURL, tags }, idx) => (
+              <ImageGalleryItem
+                key={`id${id}idx${idx}`}
+                id={id}
+                previewURL={previewURL}
+                webformatURL={webformatURL}
+                tags={tags}
+              />
+            ))}
+          </>
+        }
+      </ul>
+      {page === 1 && isLoading && <Loader />}
+      {images && !images.length && !isLoading && <Message>
+                                                    <img src={errorImg} alt="error bg"></img>
+                                                    <p>{MESSAGE_NOT_FOUND}</p>
+                                                  </Message>}
+      {!isLoading && images && images.length > 0 && !hasLoadMore && <Message><p>{MESSAGE_END_OF_SEARCH_RESULTS}</p></Message>}
+      {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={handleLoadMoreClick} />}
+    </div>
   )
 }
 

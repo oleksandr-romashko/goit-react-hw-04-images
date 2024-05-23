@@ -53,10 +53,6 @@ export const App = () => {
    * Handles search query or page update.
    */
   useEffect(() => {
-    if (!searchQuery) {
-      return;
-    }
-
     /**
      * Serches for images using external api.
      */
@@ -119,10 +115,15 @@ export const App = () => {
    * @param {string} searchQueryNew Search query.
    */
   const handleImageSearch = (searchQueryNew) => {
+    if (!searchQuery) {
+      return;
+    }
+
     if (searchQueryNew !== searchQuery) {
       setImages([]);
       setPage(1);
     }
+
     setIsLoading(true);
     setSearchQuery(searchQueryNew);
   };
@@ -203,7 +204,10 @@ export const App = () => {
     <div className={css.app}>
       <Searchbar onSearch={handleImageSearch} />
       {error && <Message>
-                  <img className={css["image-error"]} src={imgError} alt="error background"></img>
+                  <img 
+                    className={css["image-error"]} 
+                    src={imgError} 
+                    alt="error background" />
                   <p>{MESSAGE_ERROR}</p>
                   <p>"{error.message}"</p>
                 </Message>

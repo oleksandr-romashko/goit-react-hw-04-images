@@ -65,7 +65,6 @@ export const Modal = ({
     <div className={css.overlay} onClick={handleModalClose} title={`Click to zoom-out`}>
       <div className={css[`modal-${objectFit}`]}>
         <img
-          id="image"
           className={css.image}
           src={largeImageURL}
           alt={altText}

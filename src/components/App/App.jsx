@@ -53,6 +53,10 @@ export const App = () => {
    * Handles search query or page update.
    */
   useEffect(() => {
+    if (!searchQuery) {
+      return;
+    }
+
     /**
      * Serches for images using external api.
      */
@@ -60,7 +64,7 @@ export const App = () => {
       try {
         setError(null);
         const data = await getImagesApi(searchQuery, page, IMG_PER_PAGE);
-        setImages(prev => prev ? [...prev, ...data.hits] : [...data.hits]);
+        setImages(prev => [...prev, ...data.hits]);
         const hasLoadMore = page < Math.ceil(data.totalHits / IMG_PER_PAGE);
         setHasLoadMore(hasLoadMore);
       } catch (error) {
@@ -115,15 +119,10 @@ export const App = () => {
    * @param {string} searchQueryNew Search query.
    */
   const handleImageSearch = (searchQueryNew) => {
-    if (!searchQuery) {
-      return;
-    }
-
     if (searchQueryNew !== searchQuery) {
       setImages([]);
       setPage(1);
     }
-
     setIsLoading(true);
     setSearchQuery(searchQueryNew);
   };

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import css from "./SearchForm.module.css";
 
@@ -8,19 +8,21 @@ import css from "./SearchForm.module.css";
  * @returns {React.Component}
  */
 export const SearchForm = ({submit}) => {
+  const inputRef = useRef();
   /**
    * At app load focus on imput element.
    */
   useEffect(() => {
-    const input = document.getElementById("query");
+    const input = inputRef.current;
     input.focus();
   }, [])
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const searchQuery = event.target.query.value;
     submit(searchQuery);
   }
+  
 
   return (
     <form className={css.form} onSubmit={handleSubmit}>
@@ -29,6 +31,7 @@ export const SearchForm = ({submit}) => {
       </button>
       
       <input
+        ref={inputRef}
         id="query"
         className={css.input}
         name="query"

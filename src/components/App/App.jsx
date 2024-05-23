@@ -60,7 +60,7 @@ export const App = () => {
       try {
         setError(null);
         const data = await getImagesApi(searchQuery, page, IMG_PER_PAGE);
-        setImages(prev => [...prev, ...data.hits]);
+        setImages(prev => prev ? [...prev, ...data.hits] : [...data.hits]);
         const hasLoadMore = page < Math.ceil(data.totalHits / IMG_PER_PAGE);
         setHasLoadMore(hasLoadMore);
       } catch (error) {

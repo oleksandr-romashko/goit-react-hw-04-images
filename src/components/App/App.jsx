@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { getImagesApi } from "api";
 
@@ -39,8 +39,8 @@ export const App = () => {
   });
   const [error, setError] = useState(null);
 
-  const [scrollOffsetOnLoadMore, setScrollOffsetOnLoadMore] = useState(null);
-  const [lastImageElement, setLastImageElement] = useState(null);
+  const scrollOffsetOnLoadMoreRef = useRef(null);
+  const lastImageElementRef = useRef(null);
 
   /**
    * Loads critically necessary images to cache them.
@@ -133,11 +133,11 @@ export const App = () => {
   const handleLoadMore = (lastImage) => {
     setIsLoading(true);
     setPage(prev => prev + 1);
-    setScrollOffsetOnLoadMore(document.getElementById("image-gallery").offsetHeight);
+    scrollOffsetOnLoadMoreRef.current = document.getElementById("image-gallery").offsetHeight;
     if(lastImage) {
-      setLastImageElement(lastImage);
+      lastImageElementRef.current = lastImage;
     } else {
-      setLastImageElement(null);
+      lastImageElementRef.current = null;
     }
   };
 
@@ -147,18 +147,15 @@ export const App = () => {
    * Focuses on the first image gallery element of loaded images, if such element profided.
    */
   const handleLoadFocusOnNewImages = () => {
-    if (scrollOffsetOnLoadMore) {
-      smoothScroll(SMOOTH_SCROLL_DURATION, scrollOffsetOnLoadMore + 16);
+    if (scrollOffsetOnLoadMoreRef.current) {
+      smoothScroll(SMOOTH_SCROLL_DURATION, scrollOffsetOnLoadMoreRef.current + 16);
     }
-    if (lastImageElement) {
-      const nextImage = lastImageElement.nextElementSibling;
-      if (nextImage) {
-        nextImage.firstElementChild.focus();
-      }
+    if (lastImageElementRef.current) {
+      lastImageElementRef.current.firstElementChild.focus();
     } else {
-      document.activeElement.blur();
+      lastImageElementRef.current = null;
     }
-    setScrollOffsetOnLoadMore(null);
+    scrollOffsetOnLoadMoreRef.current = null;
   };
 
   /**
@@ -182,6 +179,7 @@ export const App = () => {
            }
       }
     ));
+    lastImageElementRef.current = tabFocusedElement;
   };
 
   /**
@@ -194,9 +192,7 @@ export const App = () => {
       placeholderUrl: null,
       largeImageURL: null,
     });
-    if (lastImageElement) {
-      setLastImageElement(null);
-    }
+    lastImageElementRef.current.firstElementChild.focus();
   };
 
   return (

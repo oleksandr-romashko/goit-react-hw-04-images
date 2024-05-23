@@ -7,7 +7,8 @@ import {
   ImageGallery,
   ApiReference,
   Message,
-  Modal
+  Modal,
+  OBJECT_FIT
 } from "components";
 import css from "./App.module.css";
 
@@ -219,7 +220,7 @@ export const App = () => {
       }
       {!error && images && images.length > 0 && <ApiReference />}
       {!error && modal.isShowModal && <Modal
-                                        objectFit={Modal.ObjectFit.CONTAIN}
+                                        objectFit={OBJECT_FIT.CONTAIN}
                                         placeholderUrl={modal.placeholderUrl}
                                         largeImageURL={modal.largeImageURL}
                                         altText={modal.altText}

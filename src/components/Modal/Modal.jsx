@@ -1,8 +1,18 @@
-import React from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import css from "./Modal.module.css";
 import noImage from "images/critical/no-image.svg"
+
+/**
+   * Enum for image object fit.
+   * @readonly
+   * @enum {string}
+   */
+export const OBJECT_FIT = Object.freeze({
+  COVER:   "cover",       // shows image that will filled im and part of it will be cropped to maintain aspect ratio
+  CONTAIN:  "contain",    // shows image with original aspect ratio
+});
 
 /**
  * Modal window with overlay which displays a larger version of image.
@@ -15,67 +25,59 @@ import noImage from "images/critical/no-image.svg"
 
 * @returns {React.Component}
  */
-export class Modal extends React.Component {
-  /**
-   * Enum for image object fit.
-   * @readonly
-   * @enum {string}
-   */
-  static ObjectFit = Object.freeze({
-    COVER:   "cover",       // shows image that will filled im and part of it will be cropped to maintain aspect ratio
-    CONTAIN:  "contain",    // shows image with original aspect ratio
-  });
+export const Modal = ({
+    objectFit = OBJECT_FIT.COVER,
+    placeholderUrl = noImage,
+    largeImageURL = noImage,
+    altText = "large image",
+    oncloseModal,
+  }) => {
 
-  componentDidMount() {
-    window.addEventListener("keyup", this.handleKeyPress);
-  }
-  
-  componentWillUnmount() {
-    window.removeEventListener("keyup", this.handleKeyPress);
-  }
+  useEffect(() => {
+    /**
+     * Handles keyboard press.
+     * @param {React.SyntheticEvent} event Occured event.
+     */
+    const handleKeyPress = event => {
+      if (event.code === "Escape") {
+        oncloseModal();
+      }
+    };
 
-  /**
-   * Handles keyboard press.
-   * @param {React.SyntheticEvent} event Occured event.
-   */
-  handleKeyPress = event => {
-    if (event.code === "Escape") {
-      this.props.oncloseModal();
-    }
-  };
+    window.addEventListener("keyup", handleKeyPress);
+    return () => {
+      window.removeEventListener("keyup", handleKeyPress);
+    };
+  }, [oncloseModal])
+
 
   /**
    * Handle modal window close.
    * @param {React.SyntheticEvent} event Occured event.
    */
-  handleModalClose = event => {
+  const handleModalClose = event => {
     if(event.target === event.currentTarget) {
-      this.props.oncloseModal();
+      oncloseModal();
     }
   }
 
-  render() {
-    const {
-      objectFit = Modal.ObjectFit.COVER,
-      placeholderUrl = noImage,
-      largeImageURL = noImage,
-      altText = "large image",
-    } = this.props;
-    return (
-      <div className={css.overlay} onClick={this.handleModalClose} title={`Click to zoom-out`}>
-        <div className={css[`modal-${objectFit}`]}>
-          <img
-            id="image"
-            className={css.image}
-            src={largeImageURL}
-            alt={altText}
-            title={altText}
-            style={{ backgroundImage: `url(${placeholderUrl}), url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAmklEQVR42u3QMREAMAgAMVCKNVDa1kFXhryCv+R5xeJmZvNeJECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQ4BLA7l4NWFUAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAA/13d5oqYpYEYIgAAAABJRU5ErkJggg==)` }}
-          />
-        </div>
+  return (
+    <div className={css.overlay} onClick={handleModalClose} title={`Click to zoom-out`}>
+      <div className={css[`modal-${objectFit}`]}>
+        <img
+          id="image"
+          className={css.image}
+          src={largeImageURL}
+          alt={altText}
+          title={altText}
+          style={{ 
+            backgroundImage: `url(${placeholderUrl}), 
+            url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAmklEQVR42u3QMREAMAgAMVCKNVDa1kFXhryCv+R5xeJmZvNeJECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQ4BLA7l4NWFUAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAA/13d5oqYpYEYIgAAAABJRU5ErkJggg==)` 
+          }}
+        />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 Modal.propTypes = {

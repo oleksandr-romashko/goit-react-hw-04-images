@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 import { ImageGalleryItem, Button, Loader, Message } from "components";
@@ -20,6 +20,7 @@ const MESSAGE_END_OF_SEARCH_RESULTS = "You've reached the end of the search resu
  * @returns {React.Component}
  */
 export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadMore, onDidLoadMore, onImageClick}) => {
+  const galleryRef = useRef();
 
   /**
    * Handles component update on change in number of provided images.
@@ -38,7 +39,7 @@ export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadM
       onClickLoadMore();
     } else {
       // tab focus click using space or enter
-      const lastImageElement = document.getElementById("image-gallery").lastElementChild;
+      const lastImageElement = galleryRef.current.lastElementChild;
       onClickLoadMore(lastImageElement);
     }
   }
@@ -57,7 +58,7 @@ export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadM
 
   return (
     <div>
-        <ul id="image-gallery" className={css.gallery} onClick={handleGalleryImageClick}>
+        <ul ref={galleryRef} id="image-gallery" className={css.gallery} onClick={handleGalleryImageClick}>
           {images && images.length > 0 &&
             <>
               {images.map(({ id, previewURL, webformatURL, tags }, idx) => (

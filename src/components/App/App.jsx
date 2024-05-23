@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { getImagesApi } from "api";
 
@@ -123,18 +123,18 @@ export const App = () => {
    */
   const handleLoadMore = () => {
     setIsLoading(true);
-    setPage(prev => prev + 1);
     setScrollOffsetOnLoadMore(document.getElementById("image-gallery").offsetHeight);
+    setPage(prev => prev + 1);
   };
 
   /**
-   * Scrolls to the start of newly loaded images.
+   * Handles scroll Scrolls to the start of newly loaded images.
    */
-  const scrollToNewImages = () => {
-    if (document.documentElement.scrollTop) {
+  const handleScrollToNewImages = () => {
+    if (scrollOffsetOnLoadMore) {
       smoothScroll(SMOOTH_SCROLL_DURATION, scrollOffsetOnLoadMore + 16);
-      setScrollOffsetOnLoadMore(null);
     }
+    setScrollOffsetOnLoadMore(null);
   };
 
   /**
@@ -176,8 +176,8 @@ export const App = () => {
                     page={page}
                     isLoading={isLoading}
                     hasLoadMore={hasLoadMore}
-                    onLoadMore={handleLoadMore}
-                    onUpdate={scrollToNewImages}
+                    onClickLoadMore={handleLoadMore}
+                    onDidLoadMore={handleScrollToNewImages}
                     onImageClick={handleOpenModal}
                   />
       }

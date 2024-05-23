@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { ImageGalleryItem, Button, Loader, Message } from "components";
@@ -14,38 +14,32 @@ const MESSAGE_END_OF_SEARCH_RESULTS = "You've reached the end of the search resu
  * @param {number} props.page Current searched images page number.
  * @param {boolean} props.isLoading Current data loading status.
  * @param {boolean} props.hasLoadMore Flag if there are more available images available to load.
- * @param {callback} props.onLoadMore Callback function to load of more images.
+ * @param {callback} props.onClickLoadMore Callback function to load of more images.
  * @param {callback} props.onImageClick Callback function for click on image.
  * @param {callback} props.onUpdate Callback function for gallery update.
  * @returns {React.Component}
  */
-export class ImageGallery extends React.Component {
-
-  handleGalleryImageClick = ({target}) => {
-    if (target.nodeName === "BUTTON") {
-      this.props.onImageClick(target.firstElementChild.dataset.id);
-    }
-
-    if (target.nodeName === "IMG") {
-      this.props.onImageClick(target.dataset.id);
-    }
-  }
+export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadMore, onDidLoadMore, onImageClick}) => {
 
   /**
    * Handles component update on change in number of provided images.
    * @param {object} prevProps Previous component properties. 
    */
-  componentDidUpdate(prevProps) {
-    if (prevProps.images && this.props.images && this.props.images.length !== prevProps.images.length) {
-      this.props.onUpdate();
+  useEffect(() => onDidLoadMore, [images, onDidLoadMore]);
+
+  const handleGalleryImageClick = ({target}) => {
+    if (target.nodeName === "BUTTON") {
+      onImageClick(target.firstElementChild.dataset.id);
+    }
+
+    if (target.nodeName === "IMG") {
+      onImageClick(target.dataset.id);
     }
   }
 
-  render() {
-    const {images, page, isLoading, hasLoadMore, onLoadMore} = this.props;
-    return (
-      <div>
-        <ul id="image-gallery" className={css.gallery} onClick={this.handleGalleryImageClick}>
+  return (
+    <div>
+        <ul id="image-gallery" className={css.gallery} onClick={handleGalleryImageClick}>
           {images && images.length > 0 &&
             <>
               {images.map(({ id, previewURL, webformatURL, tags }, idx) => (
@@ -66,10 +60,9 @@ export class ImageGallery extends React.Component {
                                                      <p>{MESSAGE_NOT_FOUND}</p>
                                                    </Message>}
         {!isLoading && images && images.length > 0 && !hasLoadMore && <Message><p>{MESSAGE_END_OF_SEARCH_RESULTS}</p></Message>}
-        {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={onLoadMore} />}
+        {isLoading && page === 1 ? null : images && hasLoadMore && <Button isLoading={isLoading} onClick={onClickLoadMore} />}
       </div>
-    )
-  }
+  )
 }
 
 ImageGallery.propTypes = {
@@ -77,7 +70,7 @@ ImageGallery.propTypes = {
   page: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasLoadMore: PropTypes.bool.isRequired,
-  onLoadMore: PropTypes.func.isRequired,
+  onClickLoadMore: PropTypes.func.isRequired,
   onImageClick: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onDidLoadMore: PropTypes.func.isRequired,
 }

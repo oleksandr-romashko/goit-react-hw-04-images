@@ -1,10 +1,10 @@
-import css from "./ImageGalleryItem.module.css";
+import css from "./ImageItem.module.css";
 
 /**
  * A list item component with an image.
  * @returns {React.Component}
  */
-export const ImageGalleryItem = ({ id, previewURL, webformatURL, tags }) => {
+export const ImageItem = ({ id, previewURL, webformatURL, tags }) => {
 
   const assignAltText = (event) => {
     event.target.alt = tags;

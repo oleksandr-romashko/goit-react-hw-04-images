@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-import { ImageGalleryItem, Button, Loader, Message } from "components";
-import css from "./ImageGallery.module.css";
+import { ImagesList, Button, Loader, Message } from "components";
 import errorImg from "images/critical/error-bg.svg";
 
 const MESSAGE_NOT_FOUND = "Sorry, no results found for your search. Try refining your search terms.";
@@ -20,7 +19,7 @@ const MESSAGE_END_OF_SEARCH_RESULTS = "You've reached the end of the search resu
  * @returns {React.Component}
  */
 export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadMore, onDidLoadMore, onImageClick}) => {
-  const galleryRef = useRef();
+  const galleryRef = useRef(null);
 
   /**
    * Handles component update on change in number of provided images.
@@ -44,35 +43,9 @@ export const ImageGallery = ({images, page, isLoading, hasLoadMore, onClickLoadM
     }
   }
 
-  const handleGalleryImageClick = ({target}) => {
-    // in case tab focus key press
-    if (target.nodeName === "BUTTON") {
-      onImageClick(target.firstElementChild.dataset.id, target.closest("li"));
-    }
-
-    // in case mouse click
-    if (target.nodeName === "IMG") {
-      onImageClick(target.dataset.id, target.closest("li"));
-    }
-  }
-
   return (
     <div>
-      <ul ref={galleryRef} id="image-gallery" className={css.gallery} onClick={handleGalleryImageClick}>
-        {images && images.length > 0 &&
-          <>
-            {images.map(({ id, previewURL, webformatURL, tags }, idx) => (
-              <ImageGalleryItem
-                key={`id${id}idx${idx}`}
-                id={id}
-                previewURL={previewURL}
-                webformatURL={webformatURL}
-                tags={tags}
-              />
-            ))}
-          </>
-        }
-      </ul>
+      <ImagesList ref={galleryRef} images={images} onImageClick={onImageClick} />
       {page === 1 && isLoading && <Loader />}
       {images && !images.length && !isLoading && <Message>
                                                     <img src={errorImg} alt="error bg"></img>
@@ -90,6 +63,6 @@ ImageGallery.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   hasLoadMore: PropTypes.bool.isRequired,
   onClickLoadMore: PropTypes.func.isRequired,
-  onImageClick: PropTypes.func.isRequired,
   onDidLoadMore: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func.isRequired,
 }

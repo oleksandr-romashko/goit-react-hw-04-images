@@ -22,7 +22,6 @@ export const SearchForm = ({submit}) => {
     const searchQuery = event.target.query.value;
     submit(searchQuery);
   }
-  
 
   return (
     <form className={css.form} onSubmit={handleSubmit}>

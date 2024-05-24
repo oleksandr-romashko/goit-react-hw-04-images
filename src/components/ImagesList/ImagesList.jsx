@@ -45,10 +45,10 @@ export const ImagesList = forwardRef(({images, onImageClick}, ref) => {
         </>
       }
     </ul>
-)
+  )
 });
 
 ImagesList.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.object),
-  onImageClick: PropTypes.func.isRequired,
+    images: PropTypes.arrayOf(PropTypes.object),
+    onImageClick: PropTypes.func.isRequired,
 }

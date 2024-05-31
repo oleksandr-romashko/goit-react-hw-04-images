@@ -11,13 +11,13 @@ Use this GoIT repository as a template for creating a repository
 of your project. To use it just tap the `«Use this template»` button and choose
 `«Create a new repository»` option, as you can see on the image below.
 
-![Creating repo from a template step 1](./assets/template-step-1.png)
+![Creating repo from a template step 1](./template-step-1.png)
 
 The page for creating a new repository will open on the next step. Fill out
 the Name field and make sure the repository is public, then click
 `«Create repository from template»` button.
 
-![Creating repo from a template step 2](./assets/template-step-2.png)
+![Creating repo from a template step 2](./template-step-2.png)
 
 You now have a personal project repository, having a repository-template file 
 and folder structure. After that, you can work with it as you would with any 
@@ -50,7 +50,7 @@ Next, you need to go to the settings of the GitHub repository (`Settings` >
 `Pages`) and set the distribution of the production version of files from the
 `/root` folder of the `gh-pages` branch, if this was not done automatically.
 
-![GitHub Pages settings](./assets/repo-settings.png)
+![GitHub Pages settings](./repo-settings.png)
 
 ### Deployment status
 
@@ -64,7 +64,7 @@ ID.
 More detailed information about the status can be viewed by clicking on the
 icon, and in the drop-down window, follow the link `Details`.
 
-![Deployment status](./assets/deploy-status.png)
+![Deployment status](./deploy-status.png)
 
 ### Live page
 
@@ -93,7 +93,7 @@ the line are required.
 
 ## How it works
 
-![How it works](./assets/how-it-works.png)
+![How it works](./how-it-works.png)
 
 1. After each push to the `main` branch of the GitHub repository, a special
    script (GitHub Action) is launched from the `.github/workflows/deploy.yml`

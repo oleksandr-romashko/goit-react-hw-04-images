@@ -11,25 +11,25 @@
 свого проєкта. Для цього натисни на кнопку `«Use this template»` і вибери опцію
 `«Create a new repository»`, як показано на зображенні.
 
-![Creating repo from a template step 1](./assets/template-step-1.png)
+![Creating repo from a template step 1](./template-step-1.png)
 
 На наступному кроці відкриється сторінка створення нового репозиторію. Заповни поле
 його імені, переконайся що репозиторій публічний, після чого натисни кнопку
 `«Create repository from template»`.
 
-![Creating repo from a template step 2](./assets/template-step-2.png)
+![Creating repo from a template step 2](./template-step-2.png)
 
 Після того як репозиторій буде створено, необхідно перейти в налаштування
 створеного репозиторію на вкладку `Settings` > `Actions` > `General` як
 показано на зображенні.
 
-![Settings GitHub Actions permissions step 1](./assets/gh-actions-perm-1.png)
+![Settings GitHub Actions permissions step 1](./gh-actions-perm-1.png)
 
 Проскроливши сторінку до самого кінця, у секції `«Workflow permissions»` вибери
 опцію `«Read and write permissions»` і постав галочку в чекбоксі. Це
 необхідно для автоматизації процесу деплою проєкту.
 
-![Settings GitHub Actions permissions step 2](./assets/gh-actions-perm-2.png)
+![Settings GitHub Actions permissions step 2](./gh-actions-perm-2.png)
 
 Тепер у тебе є особистий репозиторій проекту, зі структурою файлів і папок
 репозиторію-шаблону. Далі працюй із ним як із будь-яким іншим особистим репозиторієм,
@@ -61,7 +61,7 @@ GitHub.
 виставити роздачу продакшн-версії файлів із папки `/root` гілки `gh-pages`, якщо
 це не було зроблено автоматично.
 
-![GitHub Pages settings](./assets/repo-settings.png)
+![GitHub Pages settings](./repo-settings.png)
 
 ### Статус деплоя
 
@@ -74,7 +74,7 @@ GitHub.
 Детальнішу інформацію про статус можна подивитися, клікнувши на іконку, і
 у вікні, що випадає, перейти за посиланням `Details`.
 
-![Deployment status](./assets/deploy-status.png)
+![Deployment status](./deploy-status.png)
 
 ### Жива сторінка
 
@@ -101,7 +101,7 @@ GitHub.
 
 ## Як це працює
 
-![How it works](./assets/how-it-works.png)
+![How it works](./how-it-works.png)
 
 1. Після кожного пушу в гілку `main` GitHub-репозиторія, запускається спеціальний
    скрипт (GitHub Action) з файла `.github/workflows/deploy.yml`.
